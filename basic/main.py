@@ -26,9 +26,29 @@ start = (1, 1)
 goal = (19, 19)
 
 def solve(current: tuple) -> bool:
-    """Checks to see if a maze is solvable using depth-first-search.
+    row, col = current
+    if row < 0 or row >= len(maze) or col < 0 or col >= len(maze[0]):
+        return False
+    if maze[row][col] == 1 or maze[row][col] == 2:
+        return False
+    if current == goal:
+        return True
 
-    :param current: The current position being checked in the form (row, col)
-    :return: The status of if the maze has been solved.
-    """
+    maze[row][col] = 2
+
+    if (solve((row - 1, col)) or
+            solve((row + 1, col)) or
+            solve((row, col + 1)) or
+            solve((row, col - 1))):
+        return True
+
+    return False
+
+
+if __name__ == "__main__":
+    solved = solve(start)
+    if solved:
+        print("Maze successfully solved!")
+    else:
+        print("Maze could not be solved.")
     pass
